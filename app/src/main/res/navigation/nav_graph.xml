@@ -9,6 +9,16 @@
         android:id="@+id/mainFragment"
         android:name="com.fungorn.musicapp.ui.main.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_predictionDetailsFragment"
+            app:destination="@id/predictionDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/predictionDetailsFragment"
+        android:name="com.fungorn.musicapp.ui.prediction.PredictionDetailsFragment"
+        android:label="PredictionDetailsFragment"
+        tools:layout="@layout/fragment_prediction_details" />
 
 </navigation>
