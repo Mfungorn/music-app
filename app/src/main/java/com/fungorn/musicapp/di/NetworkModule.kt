@@ -29,7 +29,7 @@ val networkModule = module {
     factory {
         OkHttpClient().newBuilder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .callTimeout(10, TimeUnit.SECONDS)
+            .callTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(0, TimeUnit.SECONDS)
             .readTimeout(0, TimeUnit.SECONDS)
             .connectTimeout(0, TimeUnit.SECONDS)

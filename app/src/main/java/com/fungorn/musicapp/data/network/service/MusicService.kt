@@ -3,6 +3,7 @@ package com.fungorn.musicapp.data.network.service
 import com.fungorn.musicapp.data.network.model.TrackResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MusicService {
 
@@ -10,5 +11,9 @@ interface MusicService {
     suspend fun getTracks(): List<TrackResponse>
 
     @GET("/prediction/{track_id}")
-    suspend fun getTrackPrediction(@Path("track_id") id: String): List<TrackResponse>
+    suspend fun getTrackPrediction(
+        @Path("track_id") id: String,
+        @Query("s") start: Int = 0,
+        @Query("o") offset: Int = 100
+    ): List<TrackResponse>
 }

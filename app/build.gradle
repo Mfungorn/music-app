@@ -11,12 +11,12 @@ android {
 
     defaultConfig {
         applicationId "com.fungorn.musicapp"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "API_URL", "\"http://127.0.0.1:5000\"")
+        buildConfigField("String", "API_URL", "\"http://192.168.0.3:5000\"")
     }
 
     buildTypes {
@@ -48,6 +48,5 @@ dependencies {
     nav()
     adapterDelegates()
     okhttp()
-    coil()
     jodaDateTime()
 }
