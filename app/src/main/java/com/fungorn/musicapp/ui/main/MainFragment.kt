@@ -44,8 +44,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         isLoading.observeNonNull(viewLifecycleOwner) {
             binding.progress.isVisible = it
         }
-        tracks.observeNonNull(viewLifecycleOwner) {
+        tracks.observe(viewLifecycleOwner) {
             tracksAdapter.items = it
+            tracksAdapter.notifyDataSetChanged()
         }
     }
 }

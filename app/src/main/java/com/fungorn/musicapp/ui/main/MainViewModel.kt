@@ -23,12 +23,16 @@ class MainViewModel(
     init {
         viewModelScope.launch {
             _isLoading.value = true
-            _tracks.value = kotlin.runCatching {
-                withContext(Dispatchers.IO) { getAllTracksUseCase() }
-            }.getOrElse {
-                Log.e("GetAllTracks", it.message.orEmpty(), it)
-                listOf()
+
+            withContext(Dispatchers.IO) {
+                kotlin.runCatching { getAllTracksUseCase() }
             }
+                .onSuccess { _tracks.value = it }
+                .onFailure {
+                    Log.e("GetAllTracks", it.message.orEmpty(), it)
+                    _tracks.value = emptyList()
+                }
+
             _isLoading.value = false
         }
     }

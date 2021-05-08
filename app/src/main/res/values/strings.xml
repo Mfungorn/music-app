@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MusicApp</string>
-    <string name="artist_and_year">%s and %d</string>
+    <string name="artist_and_year">%s • %d</string>
 </resources>

@@ -28,12 +28,16 @@ class PredictionDetailViewModel(
 
     private fun fetchPredictions(trackId: String, year: Int? = null) = viewModelScope.launch {
         _isLoading.value = true
-        _predictedTracks.value = kotlin.runCatching {
-            withContext(Dispatchers.IO) { getTrackPredictionsUseCase(trackId, year) }
-        }.getOrElse {
-            Log.e("GetTrackPredictions", it.message.orEmpty(), it)
-            listOf()
+
+        withContext(Dispatchers.IO) {
+            kotlin.runCatching { getTrackPredictionsUseCase(trackId, year) }
         }
+            .onSuccess { _predictedTracks.value = it }
+            .onFailure {
+                Log.e("GetTrackPredictions", it.message.orEmpty(), it)
+                _predictedTracks.value = emptyList()
+            }
+
         _isLoading.value = false
     }
 
