@@ -2,6 +2,8 @@ package com.fungorn.musicapp.ui.prediction
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -47,6 +49,32 @@ class PredictionDetailsFragment : Fragment(R.layout.fragment_prediction_details)
             binding.progress.isVisible = it
         }
         predictedTracks.observeNonNull(viewLifecycleOwner) {
+            binding.yearSpinner.apply {
+                val yearItems = it.map { it.year }
+                    .sorted()
+                    .mapTo(mutableListOf(), Int::toString)
+                    .also { items -> items.add(0, "Select") }
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    yearItems
+                )
+                setAdapter(adapter)
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View,
+                        position: Int,
+                        id: Long
+                    ) {
+                        viewModel.onYearSelected(yearItems[position])
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                        viewModel.onYearSelected("Select")
+                    }
+                }
+            }
             tracksAdapter.items = it
         }
     }

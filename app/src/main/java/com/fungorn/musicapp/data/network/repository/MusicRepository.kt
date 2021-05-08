@@ -9,6 +9,6 @@ class MusicRepository(
     suspend fun getTracks() =
         musicService.getTracks().map(TrackMapper::map)
 
-    suspend fun getTrackPredictions(trackId: String) =
-        musicService.getTrackPrediction(trackId).map(TrackMapper::map)
+    suspend fun getTrackPredictions(trackId: String, year: Int? = null) =
+        musicService.getTrackPrediction(trackId, year).map(TrackMapper::map)
 }

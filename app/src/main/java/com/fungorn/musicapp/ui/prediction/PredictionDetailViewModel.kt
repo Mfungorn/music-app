@@ -12,9 +12,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class PredictionDetailViewModel(
-    trackId: String,
-    getTrackPredictionsUseCase: GetTrackPredictionsUseCase
+    private val trackId: String,
+    private val getTrackPredictionsUseCase: GetTrackPredictionsUseCase
 ) : ViewModel() {
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -22,15 +23,22 @@ class PredictionDetailViewModel(
     val predictedTracks: LiveData<List<Track>> = _predictedTracks
 
     init {
-        viewModelScope.launch {
-            _isLoading.value = true
-            _predictedTracks.value = kotlin.runCatching {
-                withContext(Dispatchers.IO) { getTrackPredictionsUseCase(trackId) }
-            }.getOrElse {
-                Log.e("GetTrackPredictions", it.message.orEmpty(), it)
-                listOf()
-            }
-            _isLoading.value = false
+        fetchPredictions(trackId)
+    }
+
+    private fun fetchPredictions(trackId: String, year: Int? = null) = viewModelScope.launch {
+        _isLoading.value = true
+        _predictedTracks.value = kotlin.runCatching {
+            withContext(Dispatchers.IO) { getTrackPredictionsUseCase(trackId, year) }
+        }.getOrElse {
+            Log.e("GetTrackPredictions", it.message.orEmpty(), it)
+            listOf()
         }
+        _isLoading.value = false
+    }
+
+    fun onYearSelected(yearString: String) {
+        val year = yearString.toIntOrNull()
+        fetchPredictions(trackId, year)
     }
 }

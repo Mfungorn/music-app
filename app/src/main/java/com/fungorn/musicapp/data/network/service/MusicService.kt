@@ -13,7 +13,6 @@ interface MusicService {
     @GET("/prediction/{track_id}")
     suspend fun getTrackPrediction(
         @Path("track_id") id: String,
-        @Query("s") start: Int = 0,
-        @Query("o") offset: Int = 100
+        @Query("y") year: Int?
     ): List<TrackResponse>
 }
